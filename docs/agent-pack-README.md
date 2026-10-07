@@ -19,15 +19,12 @@
 
 | ไฟล์ | ใครอ่าน |
 |---|---|
-| `AGENTS.md` | Copilot, Cursor อ่านเองทุกครั้ง (กติกา 9 ข้อ) |
+| `AGENTS.md` | Copilot, Cursor อ่านเองทุกครั้ง (กติกา 7 ข้อ) |
 | `CLAUDE.md` | Claude Code (ชี้ไปที่ AGENTS.md) |
 | `.github/prompts/*.prompt.md` | Copilot |
 | `.claude/commands/*.md` | Claude Code |
 | `.cursor/commands/*.md` | Cursor |
 | `docs/implement-all-guide.md` | คู่มือเฟสแนวตั้งและ /implement-all |
-| `docs/mockup-guide.md` | คู่มือวาง mockup หน้าจอไว้ข้าง spec ให้ทุกคำสั่งใช้เป็นแบบ |
-| `docs/shared-spec-guide.md` | คู่มือ specs/000-shared: Constraint ข้อมูล และค่าที่ตั้งได้ ที่หลายฟีเจอร์ใช้ร่วม |
-| `docs/mockup-template.html` | ไฟล์ตั้งต้นของ mockup คัดลอกไปที่ specs/00N-*/mockups/ แล้วแก้ |
 
 เนื้อหาคำสั่งทั้ง 3 เครื่องมือเหมือนกัน ต่างกันแค่โฟลเดอร์ที่วาง
 
@@ -36,12 +33,12 @@
 เปิด terminal ที่โฟลเดอร์บนสุดของ repo แล้วรัน
 
 ```bash
-curl -sL https://github.com/ppsajja/swreqspec-template/archive/refs/heads/main.tar.gz | tar xz --strip-components=1 --wildcards '*/.github/prompts/*' '*/.claude/commands/*' '*/.cursor/commands/*' '*/docs/*-guide.md' '*/docs/agent-pack-README.md' '*/docs/mockup-template.html'
+curl -sL https://github.com/ppsajja/swreqspec-template/archive/refs/heads/main.tar.gz | tar xz --strip-components=1 --wildcards '*/.github/prompts/*' '*/.claude/commands/*' '*/.cursor/commands/*' '*/docs/implement-all-guide.md' '*/docs/agent-pack-README.md'
 git add -A && git commit -m "update agent-pack" && git push
 ```
 
-คำสั่งนี้เขียนทับเฉพาะไฟล์คำสั่งของ AI คู่มือทุกไฟล์ที่ชื่อลงท้าย -guide.md agent-pack-README.md และไฟล์ตั้งต้น mockup-template.html ไม่แตะ AGENTS.md specs backend frontend และ README ของทีม
-ถ้าต้องการ AGENTS.md รุ่นล่าสุดด้วย ให้เปิดไฟล์ใน template แล้วคัดลอกหัวข้อ "ไฟล์สำคัญ" และกฎข้อ 8 (mockup) กับข้อ 9 (config) ไปวางเอง (ทีมอาจแก้ AGENTS.md ของตัวเองไว้แล้ว)
+คำสั่งนี้เขียนทับเฉพาะไฟล์คำสั่งของ AI และคู่มือ 2 ไฟล์ ไม่แตะ AGENTS.md specs backend frontend และ README ของทีม
+ถ้าต้องการ AGENTS.md รุ่นล่าสุดด้วย ให้เปิดไฟล์ใน template แล้วคัดลอกหัวข้อ "ไฟล์สำคัญ" ไปวางเอง (ทีมอาจแก้ AGENTS.md ของตัวเองไว้แล้ว)
 
 ## ถ้าเครื่องมือใช้ไม่ได้
 

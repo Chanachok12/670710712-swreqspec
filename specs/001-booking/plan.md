@@ -1,5 +1,5 @@
 # Plan: จองคิวตรวจสุขภาพ (Booking)
-อ้างอิง: spec.md SPEC-BKG-001 Draft v3 | Updated: 2569-10-07 | สร้างด้วย /plan แล้วทีมตรวจแล้ว (plan v1 เพิ่ม UI ID และไฟล์ mockup ในหัวข้อ 4 ไม่ได้รัน /plan ใหม่)
+อ้างอิง: spec.md SPEC-BKG-001 Draft v2 | Updated: 2569-09-22 | สร้างด้วย /plan แล้วทีมตรวจแล้ว (plan v1)
 
 ## 1. สรุปแนวทาง
 - ผู้รับบริการที่ยืนยันตัวตนแล้ว ค้นช่วงเวลาว่าง เลือก แล้วยืนยันการจอง ได้หมายเลขคิวกลับทันที
@@ -31,7 +31,7 @@ backend/
   pytest.ini                   ตั้งค่า pytest ให้หา app/ เจอ
   app/
     main.py                    สร้าง FastAPI app และรวม router
-    config.py                  อ่าน DATABASE_URL และค่าที่ตั้งได้จาก spec (ตารางในข้อ 5)
+    config.py                  อ่าน DATABASE_URL
     db/
       models.py                ตาราง slots, bookings, audit_logs (SQLAlchemy)
       session.py               สร้าง engine และ session
@@ -85,9 +85,9 @@ frontend/                      React (Vite) + Tailwind CSS มีโครงเ
 | POST /bookings | in: slot_id / out: booking id, queue_no หรือ 409 พร้อมช่วงใกล้เคียง 3 ช่วง | FR-BKG-02, FR-BKG-03, FR-BKG-04 |
 | GET /bookings/{id} | out: รายละเอียดการจอง + queue_no | FR-BKG-05 |
 | GET /patients/lookup | in: เลขบัตร (ส่งต่อไป HIS ไม่เก็บ) / out: hn | IF-HIS-01 |
-| หน้าเลือกแพ็กเกจและเวลา (SlotPicker, UI-BKG-01, mockups/UI-BKG-01-select-slot.html) | เรียก GET /slots เปลี่ยนแพ็กเกจแล้วโหลดช่วงเวลาใหม่ | FR-BKG-01, FR-BKG-06 |
-| หน้ายืนยัน (ConfirmBooking, UI-BKG-02, mockups/UI-BKG-02-confirm.html) | เรียก POST /bookings ถ้าได้ 409 แสดง "ช่วงเวลาเต็ม" และ 3 ตัวเลือก | FR-BKG-03, FR-BKG-04 |
-| หน้าแสดงผลการจอง (BookingResult, UI-BKG-03, mockups/UI-BKG-03-result.html) | แสดงหมายเลขคิว แม้ส่งข้อความไม่สำเร็จ | FR-BKG-04, FR-BKG-05 |
+| หน้าเลือกแพ็กเกจและเวลา (SlotPicker) | เรียก GET /slots เปลี่ยนแพ็กเกจแล้วโหลดช่วงเวลาใหม่ | FR-BKG-01, FR-BKG-06 |
+| หน้ายืนยัน (ConfirmBooking) | เรียก POST /bookings ถ้าได้ 409 แสดง "ช่วงเวลาเต็ม" และ 3 ตัวเลือก | FR-BKG-03, FR-BKG-04 |
+| หน้าแสดงผลการจอง (BookingResult) | แสดงหมายเลขคิว แม้ส่งข้อความไม่สำเร็จ | FR-BKG-04, FR-BKG-05 |
 
 ## 5. ตารางตรวจ Constraints
 | Constraint ID | ถูกนำไปใช้ที่ไหนใน plan | สถานะ |
@@ -97,16 +97,6 @@ frontend/                      React (Vite) + Tailwind CSS มีโครงเ
 | IF-IDP-01 | auth/idp.py ทุก endpoint ตรวจผลยืนยันตัวตนก่อน | ใช้แล้ว |
 | IF-HIS-01 | GET /patients/lookup และ bookings เก็บเฉพาะ hn | ใช้แล้ว |
 | IF-NOT-01 | notify/queue.py POST /bookings ไม่รอผลการส่งข้อความ | ใช้แล้ว ตาม ASM-03 |
-
-ค่าที่ตั้งได้ (ทุกตัวเลขจาก spec อยู่ใน `backend/app/config.py` ที่เดียว)
-
-| ค่า | มาจาก ID | ชื่อตัวแปรและไฟล์ |
-|---|---|---|
-| 30 วัน | FR-BKG-01 | `DAYS_AHEAD` backend/app/config.py |
-| 3 ตัวเลือก | FR-BKG-03 | `ALT_SLOT_COUNT` backend/app/config.py |
-| วันเดียวกันและวันถัดไป 1 วัน | FR-BKG-03 | `ALT_SLOT_DAYS` backend/app/config.py |
-| ส่งซ้ำสูงสุด 3 ครั้ง ห่าง 5 นาที | ASM-03, NFR-REL-02 | `NOTIFY_RETRY_MAX`, `NOTIFY_RETRY_MINUTES` backend/app/config.py |
-| 1 รายการต่อผู้รับบริการต่อวัน | FR-BKG-02 | เป็นกฎ ไม่ใช่ค่า อยู่ในโค้ด booking/service.py พร้อมคอมเมนต์ FR-BKG-02 |
 
 ## 6. แผนทดสอบจาก Acceptance Criteria
 | AC ID | ชื่อ test | ทดสอบอย่างไร |
