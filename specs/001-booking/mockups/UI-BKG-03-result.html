@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI-BKG-03 ผลการจอง</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,"Segoe UI","Noto Sans Thai",Tahoma,sans-serif;background:#eef2f4;color:#1d2b3a;padding:24px;line-height:1.6}
+  .note{max-width:980px;margin:0 auto 16px;background:#fff7e6;border:1px dashed #d79a2b;border-radius:10px;padding:10px 14px;font-size:14px;color:#7a5414}
+  .row{display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
+  .state{width:340px}
+  .state h2{font-size:14px;color:#5b6b7b;margin:0 0 8px 4px;font-weight:600}
+  .phone{background:#fff;border:1px solid #cfd8de;border-radius:22px;padding:18px 16px 22px;box-shadow:0 6px 18px rgba(0,0,0,.06);min-height:560px}
+  .bar{font-weight:700;font-size:18px;margin-bottom:10px}
+  .steps{display:flex;gap:6px;margin-bottom:16px}
+  .steps span{flex:1;text-align:center;font-size:12px;padding:5px 2px;border-radius:999px;background:#eef2f4;color:#5b6b7b}
+  .steps span.on{background:#0e7c7b;color:#fff}
+  label{display:block;font-size:13px;color:#5b6b7b;margin:12px 0 4px}
+  .select{border:1px solid #b9c6ce;border-radius:10px;padding:10px 12px;background:#fff;display:flex;justify-content:space-between}
+  .days{display:flex;gap:6px;overflow:hidden}
+  .day{min-width:54px;text-align:center;border:1px solid #b9c6ce;border-radius:10px;padding:6px 4px;font-size:13px}
+  .day.on{border:2px solid #0e7c7b;background:#e3f1f0;font-weight:700}
+  .more{font-size:12px;color:#0e7c7b;margin-top:4px}
+  .slot{display:flex;justify-content:space-between;align-items:center;border:1px solid #b9c6ce;border-radius:10px;padding:10px 12px;margin-top:8px}
+  .slot.on{border:2px solid #0e7c7b;background:#e3f1f0}
+  .slot small{color:#5b6b7b}
+  .btn{display:block;text-align:center;background:#0e7c7b;color:#fff;border-radius:12px;padding:12px;font-weight:700;margin-top:18px}
+  .btn.ghost{background:#fff;color:#0e7c7b;border:1px solid #0e7c7b}
+  .card{border:1px solid #d6dee3;border-radius:12px;padding:12px 14px;margin-top:10px;font-size:14px}
+  .card div{display:flex;justify-content:space-between;padding:3px 0}
+  .card div span:first-child{color:#5b6b7b}
+  .alert{border-radius:12px;padding:12px 14px;margin-top:6px;font-size:14px}
+  .alert.red{background:#fbeae9;border:1px solid #e3a5a1;color:#8f2d27}
+  .alert.amber{background:#fcf3e2;border:1px solid #ecc98a;color:#7a5414}
+  .alert b{display:block;font-size:16px;margin-bottom:2px}
+  .opt{display:flex;justify-content:space-between;align-items:center;border:1px solid #b9c6ce;border-radius:10px;padding:10px 12px;margin-top:8px;font-size:14px}
+  .opt em{font-style:normal;color:#0e7c7b;font-weight:700}
+  .queue{margin:16px 0 6px;border:2px dashed #d79a2b;border-radius:14px;padding:18px 10px;text-align:center;background:#fffaf0}
+  .queue small{display:block;color:#5b6b7b;font-size:13px}
+  .queue strong{display:block;font-size:22px;color:#7a5414;margin-top:4px}
+  .ok{font-size:20px;font-weight:700;color:#2f7a4f;margin-top:6px}
+</style>
+</head>
+<body>
+<!-- MOCKUP สำหรับคุยกับผู้ใช้และ PO ไม่ใช่โค้ดจริง ห้ามคัดลอกไฟล์นี้ไปเป็นโค้ดทั้งไฟล์
+     ข้อมูลทุกตัวเป็นตัวอย่าง ดูว่าอะไร "ต้องตรง" ได้ที่หมวด "หน้าจอ (UI)" ใน spec.md
+     data-req บอกว่าส่วนนั้นรองรับ requirement ข้อไหน -->
+<p class="note">🧩 MOCKUP UI-BKG-03 ผลการจอง | รองรับ FR-BKG-04, FR-BKG-05 | 2 สถานะ | ไม่มีปุ่มยกเลิกหรือเลื่อนคิว เพราะ UC-02 อยู่ใน Out of scope</p>
+<div class="row">
+  <section class="state">
+    <h2>สถานะปกติ</h2>
+    <div class="phone">
+      <div class="bar">จองคิวตรวจสุขภาพ</div>
+      <div class="steps"><span class="">1 เลือกเวลา</span><span class="">2 ยืนยัน</span><span class="on">3 ผลการจอง</span></div>
+      <div class="ok" data-req="FR-BKG-04">จองสำเร็จ</div>
+      <div class="queue" data-req="FR-BKG-04"><small>หมายเลขคิวของคุณ</small><strong>[ รูปแบบรอ Q-02 ]</strong></div>
+      <div class="card">
+        <div><span>แพ็กเกจ</span><span>ตรวจสุขภาพทั่วไป</span></div>
+        <div><span>วันที่</span><span>ศ 9 ต.ค. 2569</span></div>
+        <div><span>เวลา</span><span>09.00 น.</span></div>
+      </div>
+      <div class="alert amber" style="background:#e8f3ec;border-color:#a9d1b7;color:#2f6b47">ส่งข้อความยืนยันไปทาง SMS หรือ LINE แล้ว</div>
+    </div>
+  </section>
+  <section class="state">
+    <h2>สถานะ: ส่งข้อความยืนยันไม่สำเร็จ (AC-BKG-04)</h2>
+    <div class="phone">
+      <div class="bar">จองคิวตรวจสุขภาพ</div>
+      <div class="steps"><span class="">1 เลือกเวลา</span><span class="">2 ยืนยัน</span><span class="on">3 ผลการจอง</span></div>
+      <div class="ok" data-req="FR-BKG-05">จองสำเร็จ</div>
+      <div class="queue" data-req="FR-BKG-05"><small>หมายเลขคิวของคุณ</small><strong>[ รูปแบบรอ Q-02 ]</strong></div>
+      <div class="card">
+        <div><span>แพ็กเกจ</span><span>ตรวจสุขภาพทั่วไป</span></div>
+        <div><span>วันที่</span><span>ศ 9 ต.ค. 2569</span></div>
+        <div><span>เวลา</span><span>09.00 น.</span></div>
+      </div>
+      <div class="alert amber" data-req="FR-BKG-05">ยังส่งข้อความยืนยันไม่สำเร็จ ระบบจะส่งให้อีกครั้ง กรุณาจดหมายเลขคิวไว้</div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

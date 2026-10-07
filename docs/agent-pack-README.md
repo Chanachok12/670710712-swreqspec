@@ -1,46 +1,48 @@
 # agent-pack สำหรับ repo <ทีม>-swreqspec
 
-ชุดไฟล์นี้ทำให้ Copilot, Claude Code และ Cursor มีคำสั่ง `/clarify` และ `/plan` เหมือนกัน
+ชุดไฟล์คำสั่งที่ทำให้ Copilot, Claude Code และ Cursor มีคำสั่งเหมือนกันทั้ง 3 เครื่องมือ
 ไม่ต้องติดตั้งโปรแกรมเพิ่ม แค่วางไฟล์ลง repo แล้ว commit
+
+## คำสั่งทั้งหมด (เรียงตามลำดับที่ใช้)
+
+| คำสั่ง | ได้อะไร | ใช้ครั้งแรกเมื่อ |
+|---|---|---|
+| `/clarify` | AI ถามคำถามจาก spec.md แล้วแก้เป็น spec v2 | สัปดาห์ Clarify and Plan |
+| `/plan` | plan.md แผนทางเทคนิค | สัปดาห์ Clarify and Plan |
+| `/tasks` | tasks.md แบ่งเป็นเฟสแนวตั้ง มีจุดตรวจท้ายเฟส | สัปดาห์ tasks.md (รุ่นเฟสเริ่มใช้กับ use case ที่ 2) |
+| `/implement T-xx` | โค้ดและ test ของ task 1 ตัว | สัปดาห์ tasks.md |
+| `/implement-all เฟส N` | ทำ task ในเฟสต่อเนื่อง commit ทีละ task แล้วหยุดที่จุดตรวจ | สัปดาห์ Verifying (ใช้หลังตรวจเป็นแล้ว) |
+| `/testcases AC-xx` | ร่าง test cases จาก AC ลง test-cases.md แล้วเขียนโค้ด test จากแถวที่ทีมตรวจแล้ว | สัปดาห์ Verifying |
+| `/verify` | ตารางตามรอย spec โค้ด test (rtm.md) และข้อค้นพบ ไม่แก้โค้ด | สัปดาห์ Verifying |
 
 ## ไฟล์ในชุด
 
-| ไฟล์ | ใครอ่าน | ทำอะไร |
-|---|---|---|
-| `AGENTS.md` | Copilot, Cursor | กติกาของโปรเจกต์ AI อ่านเองทุกครั้ง |
-| `CLAUDE.md` | Claude Code | ชี้ไปที่ AGENTS.md |
-| `.github/prompts/clarify.prompt.md`, `plan.prompt.md` | Copilot | คำสั่ง /clarify และ /plan |
-| `.claude/commands/clarify.md`, `plan.md` | Claude Code | คำสั่ง /clarify และ /plan |
-| `.cursor/commands/clarify.md`, `plan.md` | Cursor | คำสั่ง /clarify และ /plan |
-| `.devcontainer/devcontainer.json` | Codespaces | เปิด Copilot Chat ให้อัตโนมัติเมื่อสร้าง Codespace ใหม่ |
-| `docs/prompt-log-template.md` | ทีม | แบบฟอร์มบันทึกการใช้ AI |
+| ไฟล์ | ใครอ่าน |
+|---|---|
+| `AGENTS.md` | Copilot, Cursor อ่านเองทุกครั้ง (กติกา 9 ข้อ) |
+| `CLAUDE.md` | Claude Code (ชี้ไปที่ AGENTS.md) |
+| `.github/prompts/*.prompt.md` | Copilot |
+| `.claude/commands/*.md` | Claude Code |
+| `.cursor/commands/*.md` | Cursor |
+| `docs/implement-all-guide.md` | คู่มือเฟสแนวตั้งและ /implement-all |
+| `docs/mockup-guide.md` | คู่มือวาง mockup หน้าจอไว้ข้าง spec ให้ทุกคำสั่งใช้เป็นแบบ |
+| `docs/shared-spec-guide.md` | คู่มือ specs/000-shared: Constraint ข้อมูล และค่าที่ตั้งได้ ที่หลายฟีเจอร์ใช้ร่วม |
+| `docs/mockup-template.html` | ไฟล์ตั้งต้นของ mockup คัดลอกไปที่ specs/00N-*/mockups/ แล้วแก้ |
 
-เนื้อหาคำสั่งทั้ง 3 เครื่องมือเหมือนกันทุกตัวอักษร ต่างกันแค่โฟลเดอร์ที่วาง
+เนื้อหาคำสั่งทั้ง 3 เครื่องมือเหมือนกัน ต่างกันแค่โฟลเดอร์ที่วาง
 
-## วิธีติดตั้ง (ทำครั้งเดียวต่อทีม)
+## อัปเดตคำสั่งใน repo ทีม (ไม่แตะ specs และโค้ดของทีม)
 
-เปิด terminal ที่ root ของ repo แล้วรัน
+เปิด terminal ที่โฟลเดอร์บนสุดของ repo แล้วรัน
 
 ```bash
-curl -sL https://github.com/ppsajja/swreqspec-template/archive/refs/heads/main.tar.gz | tar xz --strip-components=1 --exclude='*/specs' --exclude='*/specs/*' --exclude='*/README.md' --exclude='*/.gitignore'
-git add -A
-git commit -m "add agent-pack"
-git push
+curl -sL https://github.com/ppsajja/swreqspec-template/archive/refs/heads/main.tar.gz | tar xz --strip-components=1 --wildcards '*/.github/prompts/*' '*/.claude/commands/*' '*/.cursor/commands/*' '*/docs/*-guide.md' '*/docs/agent-pack-README.md' '*/docs/mockup-template.html'
+git add -A && git commit -m "update agent-pack" && git push
 ```
 
-(repo ที่สร้างจาก template ของรายวิชามีชุดนี้อยู่แล้ว ไม่ต้องรัน)
-
-เสร็จแล้วเพื่อนในทีมแค่ `git pull` หรือเปิด Codespace ใหม่ ก็ได้คำสั่งเหมือนกัน
-
-## วิธีใช้
-
-1. เปิดแชตของเครื่องมือที่ใช้ (Copilot Chat ต้องเป็นโหมด **Agent**)
-2. พิมพ์ `/clarify specs/001-<feature>/spec.md`
-3. อ่านคำถาม ตอบในแชต (ตอบไม่ได้ให้บอกว่า "ไม่รู้ ต้องถาม...")
-4. AI แก้ spec.md เป็น v2 และเขียน prompt-log.md ให้ ตรวจ diff แล้ว commit ว่า `spec v2`
-5. พิมพ์ `/plan` ได้ plan.md ตรวจตารางข้อ 5 (Constraints) แล้ว commit
+คำสั่งนี้เขียนทับเฉพาะไฟล์คำสั่งของ AI คู่มือทุกไฟล์ที่ชื่อลงท้าย -guide.md agent-pack-README.md และไฟล์ตั้งต้น mockup-template.html ไม่แตะ AGENTS.md specs backend frontend และ README ของทีม
+ถ้าต้องการ AGENTS.md รุ่นล่าสุดด้วย ให้เปิดไฟล์ใน template แล้วคัดลอกหัวข้อ "ไฟล์สำคัญ" และกฎข้อ 8 (mockup) กับข้อ 9 (config) ไปวางเอง (ทีมอาจแก้ AGENTS.md ของตัวเองไว้แล้ว)
 
 ## ถ้าเครื่องมือใช้ไม่ได้
 
-เปิดไฟล์ `.github/prompts/clarify.prompt.md` คัดลอกเนื้อหาทั้งหมด วางในแชต AI ตัวไหนก็ได้
-ตามด้วยเนื้อหา spec.md ของทีม จะได้คำถามแบบเดียวกัน แล้วแก้ spec.md เอง
+เปิดไฟล์คำสั่งใน `.github/prompts/` คัดลอกเนื้อหาทั้งหมด วางในแชต AI ตัวไหนก็ได้ ตามด้วย path ของไฟล์ที่ต้องการ
